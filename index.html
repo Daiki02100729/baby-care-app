@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>医療ケア児ノート</title>
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <!-- welcome screen -->
+  <main id="welcome-screen">
+    <section class="welcome">
+      <p class="welcome-icon" aria-hidden="true">♡</p>
+      <h1 class="welcome-title">ケアノートへようこそ</h1>
+      <p class="welcome-desc">
+        お子さんの毎日を記録できます<br>
+        お名前を入力してください
+      </p>
+      <form onsubmit="startApp(event)">
+        <label for="welcome-name" class="welcome-name">お子さんの名前</label>
+        <input class="welcome-input" type="text" id="welcome-name" placeholder="例：とうか" maxlength="20"
+          autocomplete="off">
+        <button class="btn-start" type="submit">はじめる</button>
+      </form>
+    </section>
+  </main>
+
+  <!-- main screen -->
+  <div id="main-screen">
+    <header class="site-header">
+      <h2 class="header-title">♡医ケア児ノート</h2>
+      <p class="header-desc">大切なお子さんの毎日を記録できます</p>
+    </header>
+
+    <nav class="tabs" role="tablist" aria-label="医療ケアの記録">
+      <button class="tab active" role="tab" aria-selected="true" onclick="switchTab('vital')">バイタル</button>
+      <button class="tab" role="tab" aria-selected="false" onclick="switchTab('care')">医療ケア</button>
+      <button class="tab" role="tab" aria-selected="false" onclick="switchTab('drug')">投薬</button>
+      <button class="tab" role="tab" aria-selected="false" onclick="switchTab('excretion')">排泄</button>
+      <button class="tab" role="tab" aria-selected="false" onclick="switchTab('log')">記録一覧</button>
+    </nav>
+
+    <!-- vital -->
+
+    <section id="panel-vital" class="panel active" role="tabpanel" aria-labelledby="tabvital">
+      <article class="card">
+        <h2 class="sec-label">バイタルサイン</h2>
+        <form onsubmit="addRecord(event, 'vital')">
+          <div class="grid2">
+            <div class="fg"><label for="v-date">日付・時刻</label><input type="datetime-local" id="v-date"></div>
+            <div class="fg"><label for="v-temp">体温（℃）</label><input type="number" id="v-temp" placeholder="36.8"
+                step="0.1"></div>
+            <div class="fg"><label for="v-spo2">SpO₂（%）</label><input type="number" id="v-spo2" step="0.1"
+                placeholder="98" min="0" max="100"></div>
+            <div class="fg"><label for="v-hr">心拍数（回/分）</label><input type="number" id="v-hr" placeholder="140" step="1">
+            </div>
+            <div class="fg"><label for="v-rr">呼吸数（回/分）</label><input type="number" id="v-rr" placeholder="40" step="1">
+            </div>
+            <div class="fg"><label for="v-weight">体重（g）</label><input type="number" id="v-weight" placeholder="2500"
+                step="1"></div>
+
+            <div class="fg full">
+              <label for="v-memo">メモ</label>
+              <textarea id="v-memo" placeholder="顔色よく目を開けていた。担当：宮﨑Ns"></textarea>
+            </div>
+          </div>
+          <button class="btn-primary" type="submit">記録する</button>
+        </form>
+      </article>
+    </section>
+
+    <!-- care -->
+    <section id="panel-care" class="panel" role="tabpanel" aria-labelledby="tabcare">
+      <article class="card">
+
+        <h2 class="sec-label">吸引</h2>
+        <form onsubmit="addRecord(event, 'care')">
+          <div class="grid2">
+            <div class="fg"><label for="s-date">日付・時刻</label><input type="datetime-local" id="s-date"></div>
+            <div class="fg">
+              <label for="s-site">吸引部位</label>
+              <select id="s-site">
+                <option value="">選択</option>
+                <option>口腔内</option>
+                <option>鼻腔内</option>
+                <option>気管内</option>
+                <option>その他</option>
+              </select>
+            </div>
+            <div class="fg"><label for="s-amount">量</label><input type="text" id="s-amount" placeholder="少量・中等量・多量">
+            </div>
+            <div class="fg"><label for="s-color">色</label><input type="text" id="s-color" placeholder="白色・黄色・血性など">
+            </div>
+            <div class="fg full">
+              <label for="s-memo">メモ</label>
+              <textarea id="s-memo" placeholder="SpO₂低下あり・啼泣時など"></textarea>
+            </div>
+          </div>
+          <button class="btn-primary" type="submit">記録する</button>
+        </form>
+      </article>
+
+      <hr class="divider">
+
+      <article class="card">
+        <h2 class="sec-label">胃瘻・経管栄養</h2>
+        <form onsubmit="addRecord(event, 'meal')">
+          <div class="grid2">
+            <div class="fg"><label for="m-date">日付・時刻</label><input type="datetime-local" id="m-date"></div>
+            <div class="fg">
+              <label for="m-method">方法</label><select id="m-method">
+                <option value="">選択</option>
+                <option>胃瘻</option>
+                <option>経鼻胃管</option>
+                <option>経口</option>
+                <option>その他</option>
+              </select>
+            </div>
+            <div class="fg"><label for="m-amount">注入量（ml）</label><input type="number" id="m-amount" placeholder="50"
+                step="1"></div>
+            <div class="fg"><label for="m-time">注入時間（分）</label><input type="number" id="m-time" placeholder="30"
+                step="1"></div>
+            <div class="fg"><label for="m-content">内容</label><input type="text" id="m-content"
+                placeholder="母乳・ミルク・エレンタールなど"></div>
+            <div class="fg"><label for="m-memo">メモ</label><textarea id="m-memo" placeholder="嘔吐あり・残量など"></textarea>
+            </div>
+          </div>
+          <button class="btn-primary" type="submit">記録する</button>
+        </form>
+      </article>
+
+      <hr class="divider">
+
+      <article class="card">
+        <h2 class="sec-label">人工呼吸器</h2>
+        <form onsubmit="addRecord(event, 'respirator')">
+          <div class="grid2">
+            <div class="fg"><label for="r-date">日付・時刻</label><input type="datetime-local" id="r-date"></div>
+            <div class="fg">
+              <label for="r-mode">モード</label>
+              <select id="r-mode">
+                <option value="">選択</option>
+                <option>CPAP</option>
+                <option>A/C</option>
+                <option>SIMV</option>
+                <option>その他</option>
+              </select>
+            </div>
+            <div class="fg"><label for="r-fio2">FiO₂（%）</label><input type="number" id="r-fio2" step="1.0" min="21"
+                max="100"></div>
+            <div class="fg"><label for="r-peep">PEEP（cmH₂O）</label><input type="number" id="r-peep" step=".5"></div>
+            <div class="fg"><label for="r-memo">メモ</label>
+              <textarea id="r-memo" placeholder="アラート内容・メモなど"></textarea>
+            </div>
+          </div>
+          <button class="btn-primary" type="submit">記録する</button>
+        </form>
+      </article>
+    </section>
+
+    <!-- medicine -->
+    <section id="panel-drug" class="panel" role="tabpanel" aria-labelledby="tabmenicen">
+      <article class="card">
+
+        <h2 class="sec-label">お薬記録</h2>
+        <form onsubmit="addRecord(event,'drug')">
+          <div class="grid2">
+
+            <div class="fg"><label for="d-date">日付・時刻</label><input type="datetime-local" id="d-date"></div>
+
+            <div class="fg"><label for="d-name">お薬の名前</label><input type="text" id="d-name"></div>
+
+            <div class="fg"><label for="d-amount">量・単位</label><input type="number" id="d-amount" step=".5"
+                placeholder="0.5ml"></div>
+
+            <div class="fg">
+              <label for="d-method">投与方法</label>
+              <select id="d-method">
+                <option value="">選択</option>
+                <option>経口</option>
+                <option>経管</option>
+                <option>点滴</option>
+                <option>坐薬</option>
+                <option>吸入</option>
+                <option>その他</option>
+              </select>
+            </div>
+
+            <div class="fg">
+              <label for="d-result">投与結果</label>
+              <select id="d-result">
+                <option value="">選択</option>
+                <option>完全投与</option>
+                <option>吐き出し</option>
+                <option>嘔吐</option>
+                <option>拒否</option>
+                <option>その他</option>
+              </select>
+            </div>
+
+            <div class="fg"><label for="d-memo">メモ</label><textarea id="d-memo" placeholder="投与前後の様子など"></textarea>
+            </div>
+
+          </div>
+          <button class="btn-primary" type="submit">記録する</button>
+        </form>
+      </article>
+    </section>
+
+    <!-- excretion -->
+    <section id="panel-excretion" class="panel" role="tabpanel" aria-labelledby="tabexcretion">
+      <article class="card">
+        <h2 class="sec-label">排泄</h2>
+        <form onsubmit="addRecord(event, 'excretion')">
+          <div class="grid2">
+
+            <div class="fg"><label for="e-date">日付・時刻</label><input type="datetime-local" id="e-date"></div>
+
+            <div class="fg">
+              <label for="e-type">種別</label>
+              <select id="e-type">
+                <option value="">選択</option>
+                <option>おしっこ</option>
+                <option>うんち</option>
+                <option>両方</option>
+              </select>
+            </div>
+
+            <div class="fg"><label for="e-amount">量</label><input type="text" id="e-amount" placeholder="普通・少量など"></div>
+
+            <div class="fg"><label for="e-memo">メモ</label><textarea id="e-memo"></textarea></div>
+
+          </div>
+          <button class="btn-primary" type="submit">記録する</button>
+        </form>
+      </article>
+
+    </section>
+
+    <section id="panel-log" class="panel" role="tabpanel" aria-labelledby="tabrecord">
+      <article class="card">
+        <h2 class="sec-label">すべての記録</h2>
+        <div id="log-list">
+          <p class="empty">まだ記録がありません</p>
+        </div>
+      </article>
+    </section>
+  </div>
+
+  <div role="status" aria-live="polite">
+    <div class="keep" id="keep">記録しました♡</div>
+  </div>
+
+  <script src="js/app.js" defer></script>
+</body>
+
+</html>
