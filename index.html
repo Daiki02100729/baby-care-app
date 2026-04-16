@@ -29,7 +29,7 @@
   </main>
 
   <!-- main screen -->
-  <div id="main-screen">
+  <div id="main-screen" style="display:none">
     <header class="site-header">
       <h2 class="header-title">♡医ケア児ノート</h2>
       <p class="header-desc">大切なお子さんの毎日を記録できます</p>
@@ -48,6 +48,7 @@
     <section id="panel-vital" class="panel active" role="tabpanel" aria-labelledby="tabvital">
       <article class="card">
         <h2 class="sec-label">バイタルサイン</h2>
+
         <form onsubmit="addRecord(event, 'vital')">
           <div class="grid2">
             <div class="fg"><label for="v-date">日付・時刻</label><input type="datetime-local" id="v-date"></div>
